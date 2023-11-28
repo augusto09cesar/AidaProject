@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+    </ion-buttons>
+    <ion-title color="warning">L O G I N</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form [formGroup]="formGroup">
+
+    <img class="logo" src="assets/images/aida2.png">
+
+    <ion-item>
+      <ion-label position="stacked">Email</ion-label>
+      <ion-input type="text" formControlName="email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Senha</ion-label>
+      <ion-input type="password" formControlName="senha"></ion-input>
+    </ion-item>
+
+    <ion-button [disabled]="!formGroup.valid" type="submit" (click)="login()" expand="block">Acessar</ion-button>
+    <ion-button expand="block" routerLink="/add-usuario">Cadastrar</ion-button>
+    <ion-button fill="outline" expand="block" routerLink="/recuperar-senha">Recuperar Senha</ion-button>
+
+  </form>
+</ion-content>

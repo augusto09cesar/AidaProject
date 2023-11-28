@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/torneio"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="medium">T O R N E I O</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="formGroup">
+    <ion-item>
+      <ion-label position="stacked">Rodada</ion-label>
+      <ion-select (ionChange)="buscarPorRodada()" label-placement="fixed" placeholder="Selecione o vencedor"
+        formControlName="rodada">
+        <ion-select-option *ngFor="let rodada of rodadas" [value]="rodada">Rodada {{rodada}}
+          <ng-template [ngIf]="rodada === rodadas.length">
+            - FINAL
+          </ng-template>
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </form>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let jogo of jogos">
+      <ion-card [routerLink]="['/resultado-jogo/', jogo.idJogo]" detail>
+        <ion-card-header>
+          <ion-card-title> {{jogo.equipeA.nome}} X {{jogo.equipeB.nome}}</ion-card-title>
+          <ion-card-subtitle>
+            <ng-template [ngIf]="jogo.idVencedor !== 0" [ngIfElse]="semVencedor">
+              Vencedor: {{jogo.equipeVencedor.nome}}
+
+              <ng-template [ngIf]="rodadaAtual === rodadas.length">
+                <br>
+                <br>
+                <br>
+                <br>
+                <ion-card-subtitle>
+                  <h1>Vencedor do torneio {{torneio.nome}}</h1>
+                </ion-card-subtitle>
+                <ion-card-title>
+                  <h1>
+                    {{jogo.equipeVencedor.nome}}
+                  </h1>
+                </ion-card-title>
+              </ng-template>
+
+            </ng-template>
+            <ng-template #semVencedor>
+              Ainda sem resultados.
+            </ng-template>
+          </ion-card-subtitle>
+        </ion-card-header>
+      </ion-card>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

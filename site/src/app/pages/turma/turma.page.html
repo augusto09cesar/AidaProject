@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="success">T U R M A</ion-title>
+  </ion-toolbar>
+</ion-header>
+  
+<ion-content>
+  <ion-list>
+    <ion-item-sliding *ngFor="let turma of turmas">
+      <ion-item [routerLink]="['/add-turma/', turma.idTurma]" detail>
+        <ion-label>
+          <h2>
+            <ion-icon name="copy" color="primary"></ion-icon>
+            {{turma.nome}}
+          </h2>
+        </ion-label>
+      </ion-item>
+      <ion-item-options side="start">
+        <ion-item-option (click)="excluir(turma)" color="danger">Excluir</ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/add-turma" color="primary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

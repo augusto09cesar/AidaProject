@@ -1,0 +1,103 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/torneio"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="tertiary">T O R N E I O</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="formGroup" (ngSubmit)="salvar()">
+
+    <ion-item>
+      <ion-label position="stacked">Nome</ion-label>
+      <ion-input type="text" formControlName="nome" name="nome"></ion-input>
+    </ion-item>
+
+    <ng-template [ngIf]="torneio.idTorneio !== 0" [ngIfElse]="selecionarModalidade">
+      <ion-item>
+        <ion-label position="stacked">Modalidade Selecionada</ion-label>
+        <ion-input type="text" readonly>{{modalidadeSelecionada.nome}}</ion-input>
+      </ion-item>
+    </ng-template>
+
+    <ng-template #selecionarModalidade>
+      <ion-item>
+        <ion-label position="stacked">Modalidade</ion-label>
+        <ion-select (ionChange)="carregarListaEquipes()" label-placement="fixed" placeholder="Selecione uma modalidade"
+          formControlName="idModalidade">
+          <ion-select-option *ngFor="let modalidade of modalidades"
+            [value]="modalidade.idModalidade">{{modalidade.nome}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ng-template>
+
+    <ion-item>
+      <ion-label position="stacked">Regras</ion-label>
+      <ion-input type="text" formControlName="regras" name="regras"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Quantidade de Equipes</ion-label>
+      <ion-select (ionChange)="verificarQuantidade()" label-placement="fixed" placeholder="Selecione um valor" formControlName="quantidadeDeEquipes">
+        <ion-select-option [value]=2>2</ion-select-option>
+        <ion-select-option [value]=4>4</ion-select-option>
+        <ion-select-option [value]=8>8</ion-select-option>
+        <ion-select-option [value]=16>16</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button [disabled]="!formGroup.valid" type="submit" expand="block" color="primary">Salvar</ion-button>
+  </form>
+
+  <ng-template [ngIf]="torneio.idTorneio !== 0">
+    <br>
+    <form [formGroup]="formGroup2" (ngSubmit)="adcionarEquipe()">
+      <ion-item>
+        <ion-label position="stacked">Equipe</ion-label>
+        <ion-select label-placement="fixed" placeholder="Selecione um ou mais equipes" formControlName="idEquipe">
+          <ion-select-option *ngFor="let equipe of equipes" [value]="equipe.idEquipe">{{equipe.nome}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-button [disabled]="!formGroup2.valid || quantidadeCerta" type="submit" expand="block" color="primary">Adcionar</ion-button>
+    </form>
+
+    <br>
+    <ion-item>
+      <ion-label>
+        <h1>
+          Equipes da torneio {{torneio.nome}}
+        </h1>
+      </ion-label>
+    </ion-item>
+    <ion-list>
+      <ion-item-sliding *ngFor="let equipe of equipesSelecionadas">
+        <ion-item>
+          <ion-label>
+            <h2>
+              <ion-icon name="star" color="primary"></ion-icon>
+              {{equipe.nome}}
+              <h4>
+                {{equipe.modalidade}}
+              </h4>
+            </h2>
+          </ion-label>
+        </ion-item>
+        <ion-item-options side="start">
+          <ion-item-option (click)="remover(equipe)" color="danger">Remover</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </ng-template>
+
+</ion-content>
+
+<ion-footer>
+  <ion-button color="success" [disabled]="!quantidadeCerta" (click)="gerarTorneio()" expand="block">
+    INICIAR TORNEIO
+  </ion-button>
+</ion-footer>

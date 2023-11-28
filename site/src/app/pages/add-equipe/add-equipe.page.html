@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/equipe"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="tertiary">E Q U I P E</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="formGroup" (ngSubmit)="salvar()">
+
+    <ion-item>
+      <ion-label position="stacked">Nome</ion-label>
+      <ion-input type="text" formControlName="nome" name="nome"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Modalidade</ion-label>
+      <ion-select label-placement="fixed" placeholder="Selecione uma modalidade" formControlName="modalidade">
+        <ion-select-option *ngFor="let modalidade of modalidades" [value]="modalidade.idModalidade">{{modalidade.nome}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button [disabled]="!formGroup.valid" type="submit" expand="block" color="primary">Salvar</ion-button>
+  </form>
+
+  <ng-template [ngIf]="equipe.idEquipe !== 0">
+    <br>
+    <form [formGroup]="formGroup2" (ngSubmit)="adcionarAtleta()">
+      <ion-item>
+        <ion-label position="stacked">Atleta</ion-label>
+        <ion-select label-placement="fixed" placeholder="Selecione um ou mais atletas" formControlName="atleta">
+          <ion-select-option *ngFor="let atleta of atletas" [value]="atleta.idAtleta">{{atleta.nome}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-button [disabled]="!formGroup2.valid" type="submit" expand="block" color="primary">Adcionar</ion-button>
+    </form>
+
+    <br>
+    <ion-item>
+      <ion-label>
+        <h1>
+          Atletas da equipe {{equipe.nome}}
+        </h1>
+      </ion-label>
+    </ion-item>
+    <ion-list>
+      <ion-item-sliding *ngFor="let atleta of atletasSelecionados">
+        <ion-item>
+          <ion-label>
+            <h2>
+              <ion-icon name="star" color="primary"></ion-icon>
+              {{atleta.nome}}
+              <h4>
+                {{atleta.email}}
+              </h4>
+            </h2>
+          </ion-label>
+        </ion-item>
+        <ion-item-options side="start">
+          <ion-item-option (click)="remover(atleta)" color="danger">Remover</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </ng-template>
+
+</ion-content>

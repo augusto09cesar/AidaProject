@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/atleta"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="success">A T L E T A</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <form [formGroup]="formGroup" (ngSubmit)="salvar()">
+    <ion-item>
+      <ion-label position="stacked">Nome</ion-label>
+      <ion-input type="text" formControlName="nome" name="nome"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Email</ion-label>
+      <ion-input type="text" formControlName="email" name="email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">CPF</ion-label>
+      <input type="text" class="form-control border-0 shadow-none" formControlName="cpf" mask="000.000.000-00">
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Curso</ion-label>
+      <ion-select (ionChange)="carregarListaTurma()" label-placement="fixed" placeholder="Selecione um curso" formControlName="idCurso">
+        <ion-select-option *ngFor="let curso of cursos" [value]="curso.idCurso">{{curso.nome}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Turma</ion-label>
+      <ion-select label-placement="fixed" placeholder="Selecione uma turma" formControlName="idTurma">
+        <ion-select-option *ngFor="let turma of turmas" [value]="turma.idTurma">{{turma.nome}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button type="submit" expand="block" color="primary" [disabled]="!formGroup.valid">Salvar</ion-button>
+  </form>
+</ion-content>

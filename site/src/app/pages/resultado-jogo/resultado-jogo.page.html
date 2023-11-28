@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+    </ion-buttons>
+    <ion-title color="warning">R E S U L T A D O</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <h1> {{jogo.equipeA.nome}} X {{jogo.equipeB.nome}} </h1>
+  </ion-item>
+  
+  <ng-template [ngIf]="jogo.idVencedor === 0" [ngIfElse]="mostrarResultado">
+    <form [formGroup]="formGroup" (ngSubmit)="salvar()">
+      <ion-item>
+        <ion-label position="stacked">Selecione o vencedor</ion-label>
+        <ion-select label-placement="fixed" placeholder="Selecione o vencedor" formControlName="idVencedor">
+          <ion-select-option [value]="jogo.idEquipeA">{{jogo.equipeA.nome}}
+          </ion-select-option>
+          <ion-select-option [value]="jogo.idEquipeB">{{jogo.equipeB.nome}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-button [disabled]="!formGroup.valid" type="submit" expand="block" color="primary">Salvar</ion-button>
+    </form>
+  </ng-template>
+
+  <ng-template #mostrarResultado>
+    <ion-item>
+      <ion-label position="stacked"> Vencedor da partida</ion-label>
+      <ion-input type="text" readonly>{{jogo.equipeVencedor.nome}}</ion-input>
+    </ion-item>
+  </ng-template>
+
+</ion-content>
